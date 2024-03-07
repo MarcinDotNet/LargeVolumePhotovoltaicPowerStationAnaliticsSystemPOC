@@ -22,7 +22,7 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance.EFRepository
             return _context.PowerGenerators;
         }
 
-        public void SavePowerGenerato(PowerGenerator powerGenerator)
+        public void SavePowerGenerator(PowerGenerator powerGenerator)
         {
             _context.PowerGenerators.Add(powerGenerator);
             _context.SaveChanges();

@@ -21,7 +21,7 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
         /// Save power generator
         /// </summary>
         /// <returns></returns>
-        void SavePowerGenerato(PowerGenerator powerGenerator);
+        void SavePowerGenerator(PowerGenerator powerGenerator);
 
 
         /// <summary>

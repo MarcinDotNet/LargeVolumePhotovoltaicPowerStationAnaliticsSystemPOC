@@ -10,6 +10,10 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance.EFRepository
 {
     public class PowerAnaliticsDBContext: DbContext
     {
+        public PowerAnaliticsDBContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+        }
+
         public DbSet<PowerGenerator> PowerGenerators { get; set; }
         public DbSet<PowerGeneratorDetailData> PowerGeneratorDetailData { get; set; }   
         public DbSet<PowerGeneratorTimeRangeData> PowerGeneratorTimeRangeData { get; set; }

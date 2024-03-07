@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202403072158567_InitialCreate.cs" />
+    <Compile Include="Migrations\202403072158567_InitialCreate.designer.cs">
+      <DependentUpon>202403072158567_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Persistance\EFRepository\PowerAnaliticsDBContext.cs" />
     <Compile Include="Persistance\IPowerDataRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +69,11 @@
       <Project>{1E457758-F2F3-490D-B61F-85794BA2E3EE}</Project>
       <Name>PowerAnaliticPoC.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202403072158567_InitialCreate.resx">
+      <DependentUpon>202403072158567_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

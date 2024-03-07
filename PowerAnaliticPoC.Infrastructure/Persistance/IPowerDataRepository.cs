@@ -6,7 +6,8 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
 {
     /// <summary>
     /// We will hide data access from the rest of the application, to change storage type we will need to change only implementation of this interface.
-    /// In this interfave we should provide all analitics methods that we need for our application
+    /// In this interfave we should provide all analitics methods that we need for our application.
+    /// To consider to split it to more interfaces, to separate addding with the selecting and analitics.
     /// </summary>
     public interface IPowerDataRepository
     {

@@ -56,6 +56,7 @@
       <DependentUpon>202403072158567_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Persistance\EFRepository\EFPowerDataRepository.cs" />
     <Compile Include="Persistance\EFRepository\PowerAnaliticsDBContext.cs" />
     <Compile Include="Persistance\IPowerDataRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

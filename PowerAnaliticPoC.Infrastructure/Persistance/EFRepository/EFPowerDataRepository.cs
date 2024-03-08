@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,53 +18,54 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance.EFRepository
             _context = context;
         }
 
-        public IEnumerable<PowerGenerator> GetPowerGenerators()
+        public async Task<IEnumerable<PowerGenerator>> GetPowerGeneratorsAsync()
         {
-            return _context.PowerGenerators;
+            return await  _context.PowerGenerators.ToListAsync();
         }
 
-        public void SavePowerGenerator(PowerGenerator powerGenerator)
+        public async Task SavePowerGeneratorAsync(PowerGenerator powerGenerator)
         {
             _context.PowerGenerators.Add(powerGenerator);
-            _context.SaveChanges();
+           await  _context.SaveChangesAsync();
         }
 
-        public IEnumerable<PowerGeneratorTimeRangeData> GetPowerGeneratorTimeRangeData(int generatorId, TimeRange timeRange, DateTime from, DateTime to)
+        public async  Task<IEnumerable<PowerGeneratorTimeRangeData>> GetPowerGeneratorTimeRangeDataAsync(int generatorId, TimeRange timeRange, DateTime from, DateTime to)
         {
-            return _context.PowerGeneratorTimeRangeData.Where(x => x.GeneratorId == generatorId && x.TimeRange == timeRange && x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking();
+            return await _context.PowerGeneratorTimeRangeData.Where(x => x.GeneratorId == generatorId && x.TimeRange == timeRange && x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking().ToListAsync();
         }
 
-        public IEnumerable<PowerGeneratorDetailData> GetPowerGeneratorData(int generatorId, DateTime from, DateTime to)
+        public async Task<IEnumerable<PowerGeneratorDetailData>> GetPowerGeneratorDataAsync(int generatorId, DateTime from, DateTime to)
         {
-            return _context.PowerGeneratorDetailData.Where(x => x.GeneratorId == generatorId && x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking();
+            return await _context.PowerGeneratorDetailData.Where(x => x.GeneratorId == generatorId && x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking().ToListAsync();
         }
 
-        public void SavePowerGeneratorData(PowerGeneratorDetailData data)
+        public async Task SavePowerGeneratorDataAsync(PowerGeneratorDetailData data)
         {
-            _context.PowerGeneratorDetailData.Add(data);
-            _context.SaveChanges();
+
+            ///much faster then EF add
+               _context.Database.ExecuteSqlCommand($"INSERT [dbo].[PowerGeneratorDetailDatas]([GeneratorId], [TimeStamp], [CurrentProduction]) values ({data.GeneratorId},'{data.TimeStamp}',{data.CurrentProduction})");           
         }
 
-        public void SavePowerGeneratorData(PowerGeneratorTimeRangeData data)
+        public async Task SavePowerGeneratorDataAsync(PowerGeneratorTimeRangeData data)
         {
-            _context.PowerGeneratorTimeRangeData.Add(data);
-            _context.SaveChanges();
+           _context.PowerGeneratorTimeRangeData.Add(data);
+            await  _context.SaveChangesAsync();
         }
 
-        public IEnumerable<PowerGeneratorTimeRangeData> GetPowerGeneratorTimeRangeData(TimeRange timeRange, DateTime from, DateTime to)
+        public async Task<IEnumerable<PowerGeneratorTimeRangeData>> GetPowerGeneratorTimeRangeDataAsync(TimeRange timeRange, DateTime from, DateTime to)
         {
-            return _context.PowerGeneratorTimeRangeData.Where(x=> x.TimeRange == timeRange && x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking();
+            return await _context.PowerGeneratorTimeRangeData.Where(x=> x.TimeRange == timeRange && x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking().ToListAsync();
         }
 
-        public IEnumerable<PowerGeneratorDetailData> GetPowerGeneratorData(DateTime from, DateTime to)
+        public async Task<IEnumerable<PowerGeneratorDetailData>> GetPowerGeneratorDataAsync(DateTime from, DateTime to)
         {
-            return _context.PowerGeneratorDetailData.Where(x =>  x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking();
+            return  await _context.PowerGeneratorDetailData.Where(x =>  x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking().ToListAsync();
         }
 
-        public void SavePowerGeneratorData(PowerGeneratorTimeRangeData[] data)
+        public async  Task SavePowerGeneratorDataAsync(PowerGeneratorTimeRangeData[] data)
         {
             _context.PowerGeneratorTimeRangeData.AddRange(data);
-            _context.SaveChanges();
+           await  _context.SaveChangesAsync();
         }
 
 
@@ -76,15 +78,17 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance.EFRepository
         /// <param name="to"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public IEnumerable<PowerGeneratorDetailData> GetPowerGeneratorDataBelowExpectedCurrent(DateTime from, DateTime to)
+        public async Task<IEnumerable<PowerGeneratorDetailData>> GetPowerGeneratorDataBelowExpectedCurrentAsync(DateTime from, DateTime to)
         {
-            var powerGenerators = _context.PowerGenerators.Select(x => new { x.GeneratorId, x.ExpectedCurrent }).ToList();
+            var powerGenerators =  await _context.PowerGenerators.Select(x => new { x.GeneratorId, x.ExpectedCurrent }).ToListAsync();
 
-            return _context.PowerGeneratorDetailData.Where(x=>x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking().ToList().Where(x =>
+            var result = await _context.PowerGeneratorDetailData.Where(x => x.TimeStamp >= from && x.TimeStamp <= to).AsNoTracking().ToListAsync();
+             return  result.Where(x =>
             {
                 var expectedCurrent = powerGenerators.FirstOrDefault(y => y.GeneratorId == x.GeneratorId).ExpectedCurrent;
                 return x.CurrentProduction < expectedCurrent;
             });
         }
+    
     }
 }

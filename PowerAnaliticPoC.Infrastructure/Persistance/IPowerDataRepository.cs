@@ -1,6 +1,7 @@
 ﻿using PowerAnaliticPoC.Domain.PowerGenerator;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PowerAnaliticPoC.Infrastructure.Persistance
 {
@@ -15,13 +16,13 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
         /// Get all power generators
         /// </summary>
         /// <returns></returns>
-        IEnumerable<PowerGenerator> GetPowerGenerators();
+        Task<IEnumerable<PowerGenerator>> GetPowerGeneratorsAsync();
 
         /// <summary>
         /// Save power generator
         /// </summary>
         /// <returns></returns>
-        void SavePowerGenerator(PowerGenerator powerGenerator);
+        Task SavePowerGeneratorAsync(PowerGenerator powerGenerator);
 
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        IEnumerable<PowerGeneratorTimeRangeData> GetPowerGeneratorTimeRangeData(int generatorId, TimeRange timeRange, DateTime from, DateTime to);
+        Task<IEnumerable<PowerGeneratorTimeRangeData>> GetPowerGeneratorTimeRangeDataAsync(int generatorId, TimeRange timeRange, DateTime from, DateTime to);
 
         // <summary>
         /// Get all power generator data for given time range
@@ -41,19 +42,19 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        IEnumerable<PowerGeneratorDetailData> GetPowerGeneratorData(int generatorId, DateTime from, DateTime to);
+        Task<IEnumerable<PowerGeneratorDetailData>> GetPowerGeneratorDataAsync(int generatorId, DateTime from, DateTime to);
 
         ///<summary>
         /// Save power generator data
         /// </summary>
         /// <param name="data"></param>
-        void SavePowerGeneratorData(PowerGeneratorDetailData data);
+       Task SavePowerGeneratorDataAsync(PowerGeneratorDetailData data);
 
         ///<summary>
         /// Save power generator time range data
         /// </summary>
         /// <param name="data"></param>
-        void SavePowerGeneratorData(PowerGeneratorTimeRangeData data);
+       Task SavePowerGeneratorDataAsync(PowerGeneratorTimeRangeData data);
 
 
         #region processing jobs
@@ -66,7 +67,7 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        IEnumerable<PowerGeneratorTimeRangeData> GetPowerGeneratorTimeRangeData(TimeRange timeRange, DateTime from, DateTime to);
+        Task<IEnumerable<PowerGeneratorTimeRangeData>> GetPowerGeneratorTimeRangeDataAsync(TimeRange timeRange, DateTime from, DateTime to);
 
 
         // <summary>
@@ -76,13 +77,13 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        IEnumerable<PowerGeneratorDetailData> GetPowerGeneratorData(DateTime from, DateTime to);
+        Task<IEnumerable<PowerGeneratorDetailData>> GetPowerGeneratorDataAsync(DateTime from, DateTime to);
 
         ///<summary>
         /// Save power generator time range data
         /// </summary>
         /// <param name="data"></param>
-        void SavePowerGeneratorData(PowerGeneratorTimeRangeData[] data);
+        Task SavePowerGeneratorDataAsync(PowerGeneratorTimeRangeData[] data);
 
         #endregion
 
@@ -93,11 +94,9 @@ namespace PowerAnaliticPoC.Infrastructure.Persistance
         /// Gets all power generators that do not produce expected current
         /// </summary>
         /// <param name="data"></param>
-        IEnumerable<PowerGeneratorDetailData> GetPowerGeneratorDataBelowExpectedCurrent(DateTime from, DateTime to);
+        Task<IEnumerable<PowerGeneratorDetailData>> GetPowerGeneratorDataBelowExpectedCurrentAsync(DateTime from, DateTime to);
 
 
         #endregion
-
-
     }
 }

@@ -15,7 +15,7 @@
                         TimeStamp = c.DateTime(nullable: false),
                         CurrentProduction = c.Double(nullable: false),
                     })
-                .PrimaryKey(t => new { t.GeneratorId, t.TimeStamp });
+                .PrimaryKey(t => new { t.TimeStamp ,t.GeneratorId });
             CreateIndex("dbo.PowerGeneratorDetailDatas", new string[] { "GeneratorId", "TimeStamp" }, false, "IX_PowerGeneratorDetailDatas_GeneratorID_TimeStamp");
             CreateIndex("dbo.PowerGeneratorDetailDatas", new string[] { "TimeStamp" }, false, "IX_PowerGeneratorDetailDatas_TimeStamp");
 
@@ -39,7 +39,7 @@
                         TimeRange = c.Int(nullable: false),
                         CurrentProduction = c.Double(nullable: false),
                     })
-                .PrimaryKey(t => new { t.GeneratorId, t.TimeStamp, t.TimeRange });
+                .PrimaryKey(t => new { t.TimeStamp, t.TimeRange, t.GeneratorId });
             CreateIndex("dbo.PowerGeneratorTimeRangeDatas", new string[] { "GeneratorId", "TimeRange", "TimeStamp" }, false, "IX_PowerGeneratorTimeRangeDatas_GeneratorID_TimeRange_TimeStamp");
             CreateIndex("dbo.PowerGeneratorTimeRangeDatas", new string[] { "TimeRange", "TimeStamp" }, false, "IX_PowerGeneratorTimeRangeDatas_TimeRange_TimeStamp");
 

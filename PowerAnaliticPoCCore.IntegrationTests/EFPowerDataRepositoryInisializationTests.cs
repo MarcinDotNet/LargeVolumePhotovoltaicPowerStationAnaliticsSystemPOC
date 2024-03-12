@@ -10,7 +10,7 @@ public class EFPowerDataRepositoryInisializationTests
     private const int numberofWorkers = 20;
 
     private const string ConnectionString =
-        @"Server=SERVERNEW;Database=PowerAnaliticPoCTestDB2;Trusted_Connection=True";
+        @"Server=SERVERNEW;Database=PowerAnaliticPoCTestDB3;Trusted_Connection=True;TrustServerCertificate=Yes";
 
     private readonly int iterationCount = 40000;
     private readonly DateTime StartDate = new(2023, 1, 1);
@@ -19,16 +19,16 @@ public class EFPowerDataRepositoryInisializationTests
     [TestMethod]
     public void CratateDBRepositoryCheck_Should_Be_Success()
     {
-        var dbContext = new PowerAnaliticsDBContext(ConnectionString);
+        var dbContext = DBContextFactory.GetDBContext(ConnectionString);
         dbContext.Database.EnsureCreated();
     }
 
-    [Ignore]
+  
     [TestMethod]
     public void AddPowerGeneratorData()
     {
         var fmt = "000000";
-        var dbContext = new PowerAnaliticsDBContext(ConnectionString);
+        var dbContext = DBContextFactory.GetDBContext(ConnectionString);
         var repository = new EFPowerDataRepository(dbContext);
         var ls = new List<PowerGenerator>();
         var seed = new Random();
@@ -43,11 +43,11 @@ public class EFPowerDataRepositoryInisializationTests
         dbContext.SaveChanges();
     }
 
-    [Ignore]
+
     [TestMethod]
     public void Add_Power_Generator_Data_ForIterations()
     {
-        var dbContext = new PowerAnaliticsDBContext(ConnectionString);
+        var dbContext = DBContextFactory.GetDBContext(ConnectionString);
 
 
         var lastTime = dbContext.PowerGeneratorDetailData.Any()
@@ -72,7 +72,7 @@ public class EFPowerDataRepositoryInisializationTests
                     var seed = new Random();
                     var taskNumber = (int)paramsArr[0];
                     var time = (DateTime)paramsArr[1];
-                    using (var dbContextInt = new PowerAnaliticsDBContext(ConnectionString))
+                    using (var dbContextInt = DBContextFactory.GetDBContext(ConnectionString))
                     {
                         var repository = new EFPowerDataRepository(dbContextInt);
                         for (var k = taskNumber * powerGeneratorsPerWorker + 1;

@@ -27,9 +27,9 @@ public enum TimeRange
 /// </summary>
 public class PowerGeneratorTimeRangeData
 {
-    [Key] [Column(Order = 2)] public int GeneratorId { get; set; }
-    [Key] [Column(Order = 0)] public DateTime TimeStamp { get; set; }
-    [Key] [Column(Order = 1)] public TimeRange TimeRange { get; set; }
+     public int GeneratorId { get; set; }
+     public DateTime TimeStamp { get; set; }
+     public TimeRange TimeRange { get; set; }
 
     /// <summary>
     /// Double is faster then decimal, and we don't need that much precision

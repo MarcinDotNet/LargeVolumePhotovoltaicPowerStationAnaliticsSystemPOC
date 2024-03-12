@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using PowerAnaliticPoCCore.Domain.PowerGenerator;
+using System;
 
 namespace PowerAnaliticPoCCore.Infrastructure.Persistance.EFRepository;
 
@@ -41,9 +43,21 @@ public class EFPowerDataRepository : IPowerDataRepository
 
     public async Task SavePowerGeneratorDataAsync(PowerGeneratorDetailData data)
     {
-        ///much faster then EF add
-        await _context.Database.ExecuteSqlAsync(
-            $"INSERT [dbo].[PowerGeneratorDetailDatas]([GeneratorId], [TimeStamp], [CurrentProduction]) values ({data.GeneratorId},'{data.TimeStamp}',{data.CurrentProduction})");
+
+        try
+        {
+            string date = data.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss.fffffff");
+            FormattableString query =
+                $"INSERT [dbo].[PowerGeneratorDetailData]([GeneratorId], [TimeStamp], [CurrentProduction]) values ({data.GeneratorId},{data.TimeStamp},{data.CurrentProduction})";
+            var ret = await _context.Database.ExecuteSqlAsync(query);
+            ret = ret++;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+
     }
 
     public async Task SavePowerGeneratorDataAsync(PowerGeneratorTimeRangeData data)

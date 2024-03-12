@@ -10,7 +10,7 @@ namespace PowerAnaliticPoCCore.Domain.PowerGenerator;
 /// </summary>
 public class PowerGenerator
 {
-    [Key] public int GeneratorId { get; set; }
+    public int GeneratorId { get; set; }
     [MaxLength(40)] public required string Name { get; set; }
 
     /// <summary>

@@ -57,23 +57,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EFPowerDataRepository.cs" />
+    <Compile Include="EFPowerDataRepositoryInisializationTests.cs" />
     <Compile Include="Helpers\TestLocalDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PowerAnaliticPoC.Domain\PowerAnaliticPoC.Domain.csproj">
-      <Project>{1e457758-f2f3-490d-b61f-85794ba2e3ee}</Project>
-      <Name>PowerAnaliticPoC.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PowerAnaliticPoC.Infrastructure\PowerAnaliticPoC.Infrastructure.csproj">
-      <Project>{2d4a965e-0752-4355-b7b3-b59ca2289244}</Project>
-      <Name>PowerAnaliticPoC.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

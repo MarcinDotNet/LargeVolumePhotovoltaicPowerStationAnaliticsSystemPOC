@@ -66,12 +66,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PowerAnaliticPoC.Domain\PowerAnaliticPoC.Domain.csproj">
-      <Project>{1E457758-F2F3-490D-B61F-85794BA2E3EE}</Project>
-      <Name>PowerAnaliticPoC.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Migrations\202403072158567_InitialCreate.resx">
       <DependentUpon>202403072158567_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
